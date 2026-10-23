@@ -44,3 +44,41 @@ button.la-domain-entry small,
 button.la-domain-entry .domain-label { color:var(--muted); opacity:1; }
 button.la-domain-entry:hover { border-color:var(--accent)!important; }
 button.la-domain-entry:focus-visible { outline:3px solid var(--accent);outline-offset:3px; }
+
+/* V3.2.2 — Definitive Personal Domain contrast correction.
+   Domain cards are buttons, so explicitly override the global accent-filled
+   button rule. Keep all other buttons and screens untouched. */
+.app .domain-grid > button.domain-card.la-domain-entry {
+  background:linear-gradient(145deg,var(--panel) 0%,var(--hero1) 100%) !important;
+  background-color:var(--panel) !important;
+  color:var(--text) !important;
+  border:1px solid var(--line) !important;
+  text-align:left !important;
+  font-weight:400 !important;
+  justify-content:flex-start !important;
+  align-items:stretch !important;
+  box-shadow:inset 0 1px 0 #ffffff0c,0 8px 22px #00000026;
+}
+.app .domain-grid > button.domain-card.la-domain-entry h3,
+.app .domain-grid > button.domain-card.la-domain-entry strong {
+  color:var(--text) !important;
+  opacity:1 !important;
+}
+.app .domain-grid > button.domain-card.la-domain-entry p,
+.app .domain-grid > button.domain-card.la-domain-entry small,
+.app .domain-grid > button.domain-card.la-domain-entry .domain-label {
+  color:var(--muted) !important;
+  opacity:1 !important;
+}
+.app .domain-grid > button.domain-card.la-domain-entry .overline {
+  color:var(--accent) !important;
+  opacity:1 !important;
+}
+.app .domain-grid > button.domain-card.la-domain-entry:hover {
+  border-color:var(--accent) !important;
+  filter:brightness(1.07);
+}
+.app .domain-grid > button.domain-card.la-domain-entry:focus-visible {
+  outline:3px solid var(--accent) !important;
+  outline-offset:3px;
+}
