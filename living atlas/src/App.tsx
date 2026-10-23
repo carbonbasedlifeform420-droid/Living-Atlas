@@ -24,6 +24,7 @@ function App(){
  const [tab,setTab]=useState<Tab>('home');
  const [selectedRegion,setSelectedRegion]=useState<string|null>(null);
  const [activeDomain,setActiveDomain]=useState<string|null>(null);
+  const [homeObject,setHomeObject]=useState<string|null>(null);
  const [connectingAspiration,setConnectingAspiration]=useState<string|null>(null);
  const [reflection,setReflection]=useState('');
  const [reflectionTitle,setReflectionTitle]=useState('');
@@ -149,7 +150,15 @@ function App(){
  <aside className="sidebar"><div className="brand"><div className="emblem"><Icon size={28}/></div><div><strong>Living Atlas</strong><small>{theme.name}</small></div></div><nav>{navigation.map(([id,label])=><button className={tab===id?'selected':''} key={id} onClick={()=>setTab(id)}>{label}</button>)}</nav><div className="sidebar-foot">{syncLabel[syncStatus]}</div></aside>
  <main><header><div className="eyebrow">{theme.name} / {tab==='home'?'Your world':tab}</div><div className="header-right"><span role="status" aria-live="polite" style={{fontSize:12}}>{syncLabel[syncStatus]}</span><button className="ghost" onClick={exportData}><Download size={16}/> Export</button><button onClick={save} disabled={busy||syncStatus==='saving'}><Save size={16}/> Save now</button></div></header>
  {notice&&<div className="notice" role="status" onClick={()=>setNotice('')}>{notice} ×</div>}
- {tab==='home'&&<><section style={{background:worldBackground[atlas.theme],borderRadius:26,padding:'clamp(18px,5vw,38px)',color:'#fff',position:'relative',overflow:'hidden',boxShadow:'0 20px 50px #0004'}}>
+  {tab==='home'&&<><section className={'living-room room-'+atlas.theme} aria-label={homeRoomNames[atlas.theme]}>
+    <div className="room-stars" aria-hidden="true"/>
+    <div className="room-window" aria-hidden="true"><span>{atlas.theme==='voyager'?'☀':atlas.theme==='gardener'?'🌿':atlas.theme==='stargazer'?'✦':atlas.theme==='scholar'?'☾':'✧'}</span></div>
+    <div className="room-heading"><span className="overline">THE LIVING HOME · EARLY EXPLORATION</span><h1>{homeRoomNames[atlas.theme]}</h1><p>A place shaped by the stories you choose to keep.</p></div>
+    <div className="room-surface" aria-label="Interactive personal objects">{homeObjects.map(o=><button key={o.id} className={'room-object object-'+o.id+(homeObject===o.id?' focused':'')} onClick={()=>setHomeObject(homeObject===o.id?null:o.id)} aria-pressed={homeObject===o.id} title={o.name}><span className="room-object-art" aria-hidden="true">{o.icon}</span><span className="room-object-label">{o.id==='journal'?'Journal':o.id==='collection'?'Collection':o.id==='keepsake'?'Keepsakes':'Milestones'}</span>{o.count>0&&<span className="room-count">{o.count}</span>}</button>)}</div>
+    <div className="room-hint">Tap an object to explore · Your room reflects recorded information, not guesses.</div>
+  </section>
+  {homeObject&&homeObjects.filter(o=>o.id===homeObject).map(o=><section key={o.id} className="room-detail card"><div><span className="overline">FROM YOUR LIVING LIBRARY</span><h2>{o.name}</h2><p>{o.description}</p><small>{o.count} connected {o.count===1?'item':'items'}</small></div><div className="actions"><button onClick={()=>{o.action();setHomeObject(null)}}>Explore <ArrowRight size={16}/></button><button className="outline" onClick={()=>setHomeObject(null)}>Close</button></div></section>)}
+  <section style={{background:worldBackground[atlas.theme]borderRadius:26,padding:'clamp(18px,5vw,38px)',color:'#fff',position:'relative',overflow:'hidden',boxShadow:'0 20px 50px #0004'}}>
  <div style={{fontSize:12,letterSpacing:3,opacity:.75}}>THE LIVING MOSAIC · {theme.name.toUpperCase()}</div>
  <h1 style={{color:'#fff',fontSize:'clamp(29px,6vw,48px)',margin:'12px 0'}}>{worldLabels[atlas.theme]}</h1>
  <p style={{color:'#e0eaf1'}}>{atlas.theme==='arcanist'?'Dragons are revered guardians of wisdom, wonder, and growth. Explore your realm and write your legend.':'Every curiosity is a place to explore. Every experience adds to your story.'}</p>{atlas.theme==='arcanist'&&<div aria-label="Dragon guardian of the realm" style={{fontSize:72,lineHeight:1,margin:'12px 0',filter:'drop-shadow(0 8px 14px #0008)'}}>🐉 <span style={{fontSize:28}}>✨</span></div>}
@@ -168,6 +177,6 @@ function App(){
  {tab==='discover'&&<><h1>{theme.explore}</h1><p>Specific, verified recommendations and detailed feedback are the next development milestone.</p><div className="card"><h3>Built for relevance, not random assignments</h3><p>Recommendations will have a direct resource, a reason it fits you, a realistic session length, and meaningful feedback. This foundation does not yet generate or verify recommendations.</p><p><b>Your active goals:</b> {atlas.goals.map(g=>g.title).join(' · ')||'Add goals to begin.'}</p></div></>}
  {tab==='paths'&&<><h1>{theme.paths}</h1><p>Repeatable learning routines spanning multiple platforms.</p><div className="card"><h3>Conversations Along the Way</h3><p>Planned reference: AI conversation partner + Duolingo + selected video series, with rotating sessions and editable platform links.</p><p>This release preserves imported path data but does not yet provide the full 1.7 Practice Paths editor.</p></div><div className="list-cards">{atlas.paths.map((p,i)=><article className="card" key={i}><h3>{String(p.title||p.name||'Imported practice path')}</h3><small>Preserved from previous atlas</small></article>)}</div></>}
  {tab==='projects'&&<><h1>Shared Worlds</h1><p>Shared projects require an invitation and permissions model before live collaboration can be enabled.</p><div className="list-cards">{atlas.projects.map((p,i)=><article className="card" key={i}><h3>{String(p.title||'Imported project')}</h3><p>{String(p.description||'')}</p><small>Imported personal copy · not shared live</small></article>)}</div></>}
- <footer>Living Atlas 3.1 · Living Library preview · {cloudEnabled?'Private cloud mode':'Local preview mode'}</footer></main></div>;
+ <footer>Living Atlas 3.2 · Living Home preview · {cloudEnabled?'Private cloud mode':'Local preview mode'}</footer></main></div>;
 }
 export default App;
