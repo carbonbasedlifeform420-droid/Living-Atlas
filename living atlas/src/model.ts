@@ -1,4 +1,4 @@
-export type Theme = 'voyager' | 'gardener' | 'stargazer' | 'scholar';
+export type Theme = 'voyager' | 'gardener' | 'stargazer' | 'scholar' | 'arcanist';
 export type Entry = { id: string; title: string; body?: string; date?: string; kind?: string; tags?: string[] };
 export type Goal = { id: string; title: string; interest?: string; starting?: string; success?: string; why?: string; status?: string; formats?: string[] };
 export type Interest = { id: string; name: string; goal?: string };
@@ -8,7 +8,7 @@ const object = (x: unknown): Record<string, unknown> => x && typeof x === 'objec
 const arr = (x: unknown): Record<string, unknown>[] => Array.isArray(x) ? x.filter(v => v && typeof v === 'object' && !Array.isArray(v)) as Record<string, unknown>[] : [];
 const str = (x: unknown, fallback = ''): string => typeof x === 'string' ? x : fallback;
 const identifier = (x: unknown): string => str(x) || crypto.randomUUID();
-const theme = (x: unknown): Theme => ['voyager','gardener','stargazer','scholar'].includes(str(x)) ? x as Theme : 'voyager';
+const theme = (x: unknown): Theme => ['voyager','gardener','stargazer','scholar','arcanist'].includes(str(x)) ? x as Theme : 'voyager';
 export function importAtlas(raw: unknown): Atlas {
   const d = object(raw);
   if (!Array.isArray(d.goals) && !Array.isArray(d.pursuits) && !Array.isArray(d.interests) && !Array.isArray(d.records) && !Array.isArray(d.entries)) throw new Error('This file does not appear to be a Living Atlas backup.');
